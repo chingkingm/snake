@@ -1,7 +1,7 @@
 <!--
  * @Author: chingkingm
  * @Date: 2020-05-10 14:16:55
- * @LastEditTime: 2020-05-12 14:50:02
+ * @LastEditTime: 2020-05-12 15:39:23
  * @FilePath: \多媒体教育与娱乐f:\Lessens\2020春网课\移动互联网应用开发 实验\实验10\实验10.html
  * @Description: 
  -->
@@ -12,8 +12,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>贪吃蛇游戏</title>
     <style>
+        h1 {
+            text-align: center;
+        }
+
         canvas {
             border: black 1px solid;
+        }
+        #div1 {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+        }
+        #score{
+            padding-bottom: 10px;
+            font-size: 20px;
+        }
+        #highestScore {
+            padding-left: 5em;
+        }
+        #currentScore {
+            float: right;
+            padding-right: 5em;
+        }
+        #btn{
+            text-align: center;
+        }
+        button{
+            width: 150px;
+            height: 50px;
+            background-color: firebrick;
+            color: white;
+            font-size: 20px;
         }
     </style>
     <script>
@@ -26,12 +56,15 @@
 </head>
 <body>
     <h1>基于HTML5的贪吃蛇游戏的设计与实现</h1>
-    <div id="score">
-
-    </div>
-    <canvas id="game" width="600px" height="600px"></canvas>
-    <div id="btn">
-        <button>重新开始</button>
+    <div id="div1">
+        <div id="score">
+            <span id="highestScore">历史最高分：0</span>
+            <span id="currentScore">当前分数：0</span>
+        </div>
+        <canvas id="game" width="700px" height="700px"></canvas>
+        <div id="btn">
+            <button>重新开始</button>
+        </div>
     </div>
 </body>
 </html>
