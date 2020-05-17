@@ -1,7 +1,7 @@
 <!--
  * @Author: chingkingm
  * @Date: 2020-05-10 14:16:55
- * @LastEditTime: 2020-05-12 15:39:23
+ * @LastEditTime: 2020-05-17 12:47:31
  * @FilePath: \多媒体教育与娱乐f:\Lessens\2020春网课\移动互联网应用开发 实验\实验10\实验10.html
  * @Description: 
  -->
@@ -47,21 +47,82 @@
         }
     </style>
     <script>
+        const snakeWidth = 15;
+        var position_x = new Array(2);
+        var position_y = new Array(2);
+        var snakeLength = [3];
+        const border_top = 0 + snakeLength[0]  * snakeWidth;
+        const border_bottom = 705 - snakeLength[0] * snakeWidth;
+        var Direction = [1,-1,2,-2];/*分别表征上下左右*/
+        var snakeDirection = new Array(1);
         function game(){
+            /**/
+            position_x[0] = Math.floor(Math.random() * (border_bottom - border_top) + border_top);
+            position_y[0] = Math.floor(Math.random() * (border_bottom - border_top) + border_top);
+            position_x[1] = position_x[0];
+            position_y[1] = position_y[0];
+            snakeDirection[0] = Direction[Math.floor(Math.random() * 4)];
+            console.log(position_x[0] + "," + position_y[0] + "," + snakeDirection[0]);
+            i_init = 1;
+            t1 = setInterval(init,200);
+        }
+        function init(){
+            /*随机生成蛇的初始位置及方向*/
+            
             var c = document.getElementById("game");
             var ctx = c.getContext("2d");
-            
+            // ctx.fillRect(0,0,150,150);
+            // for(let i=1;i<=snakeLength[0];i++){
+                switch(snakeDirection[0]){
+                    case 1:
+                        
+                        ctx.fillRect(position_x[0],position_y[0],snakeWidth,snakeWidth*i_init);
+                        // position_x[0]+=15;
+                        position_y[0] -= 15;
+                        ctx.stroke();
+                        break;
+                    case -1:
+                        ctx.fillRect(position_x[1], position_y[1], snakeWidth, snakeWidth * i_init);
+                        // position_x[0] -= 15;
+                        position_y[0] += 15;
+                        ctx.stroke();
+                        break;
+                    case 2:
+                        ctx.fillRect(position_x[0], position_y[0], snakeWidth*i_init, snakeWidth);
+                        position_x[0] -= 15;
+                        ctx.stroke();
+                        // position_y[0] += 15;
+                        break;
+                    case -2:
+                        ctx.fillRect(position_x[1], position_y[1], snakeWidth*i_init, snakeWidth);
+                        position_x[0] += 15;
+                        ctx.stroke();
+                        // position_y[0] += 15;
+                        break;
+                }
+                console.log("Init success"+i_init);
+            // }
+            i_init++;
+            if(i_init>snakeLength[0]){
+                clearInterval(t1);
+            }
         }
+        function drawSnake(){
+            /*画蛇*/
+            const c = document.getElementById("game");
+            const ctx = c.getContext("2d");
+
+         }
     </script>
 </head>
-<body>
-    <h1>基于HTML5的贪吃蛇游戏的设计与实现</h1>
+<body onload="game()">
+    <h1>基于HTML5的贪吃蛇游戏的设计与实现</h1><hr>
     <div id="div1">
         <div id="score">
-            <span id="highestScore">历史最高分：0</span>
-            <span id="currentScore">当前分数：0</span>
+            <span id="highestScore">历史最高分：<span id="score_h">0</span></span>
+            <span id="currentScore">当前分数：<span id="score_c">0</span></span>
         </div>
-        <canvas id="game" width="700px" height="700px"></canvas>
+        <canvas id="game" width="705px" height="705px"></canvas>
         <div id="btn">
             <button>重新开始</button>
         </div>
