@@ -1,7 +1,7 @@
 <!--
  * @Author: chingkingm
  * @Date: 2020-05-10 14:16:55
- * @LastEditTime: 2020-05-17 12:47:31
+ * @LastEditTime: 2020-05-17 17:08:00
  * @FilePath: \多媒体教育与娱乐f:\Lessens\2020春网课\移动互联网应用开发 实验\实验10\实验10.html
  * @Description: 
  -->
@@ -62,30 +62,26 @@
             position_x[1] = position_x[0];
             position_y[1] = position_y[0];
             snakeDirection[0] = Direction[Math.floor(Math.random() * 4)];
+            // snakeDirection[0] = 1;
             console.log(position_x[0] + "," + position_y[0] + "," + snakeDirection[0]);
             i_init = 1;
-            t1 = setInterval(init,200);
+            t1 = setInterval(init,1000);
         }
         function init(){
             /*随机生成蛇的初始位置及方向*/
             
             var c = document.getElementById("game");
             var ctx = c.getContext("2d");
-            // ctx.fillRect(0,0,150,150);
-            // for(let i=1;i<=snakeLength[0];i++){
                 switch(snakeDirection[0]){
                     case 1:
-                        
                         ctx.fillRect(position_x[0],position_y[0],snakeWidth,snakeWidth*i_init);
                         // position_x[0]+=15;
                         position_y[0] -= 15;
-                        ctx.stroke();
                         break;
                     case -1:
-                        ctx.fillRect(position_x[1], position_y[1], snakeWidth, snakeWidth * i_init);
+                        ctx.fillRect(position_x[0], position_y[0], snakeWidth, -snakeWidth * i_init);
                         // position_x[0] -= 15;
                         position_y[0] += 15;
-                        ctx.stroke();
                         break;
                     case 2:
                         ctx.fillRect(position_x[0], position_y[0], snakeWidth*i_init, snakeWidth);
@@ -94,24 +90,62 @@
                         // position_y[0] += 15;
                         break;
                     case -2:
-                        ctx.fillRect(position_x[1], position_y[1], snakeWidth*i_init, snakeWidth);
+                        ctx.fillRect(position_x[0], position_y[0], -snakeWidth*i_init, snakeWidth);
                         position_x[0] += 15;
-                        ctx.stroke();
                         // position_y[0] += 15;
                         break;
                 }
-                console.log("Init success"+i_init);
-            // }
             i_init++;
             if(i_init>snakeLength[0]){
                 clearInterval(t1);
+                t2 = setInterval(drawSnake,1000);
+                console.log("Init success.");
             }
+            /*ctx.fillRect(300,300,-100,-100);fillRect的长宽参数可以是负值*/
         }
         function drawSnake(){
-            /*画蛇*/
+            /*画蛇,动起来*/
+            
+            for(let i=0;i<snakeLength.length;i++){
+                /*每一段蛇身单独画*/
+                drawPart(i);
+            }
+         }
+         function drawPart(n){
+            let plus = 0;
+            if(n<=0){
+                plus = -1;
+            }
+            else if(n>=snakeLength.length){
+                plus = 1;
+            }
             const c = document.getElementById("game");
             const ctx = c.getContext("2d");
-
+            c.width = c.width;
+            console.log(position_x+";"+position_y+n);
+            switch (snakeDirection[n]) {
+                 case 1:
+                     ctx.fillRect(position_x[n], position_y[n], snakeWidth, snakeWidth * snakeLength[n]);
+                     position_y[n] += snakeWidth*plus;
+                     break;
+                 case -1:
+                     ctx.fillRect(position_x[n], position_y[n], snakeWidth, -snakeWidth * snakeLength[n]);
+                     position_y[n] -= snakeWidth * plus;
+                     break;
+                 case 2:
+                     ctx.fillRect(position_x[n], position_y[n], snakeWidth * snakeLength[n], snakeWidth);
+                     position_x[n] += snakeWidth * plus;
+                     break;
+                 case -2:
+                     ctx.fillRect(position_x[n], position_y[n], -snakeWidth * snakeLength[n], snakeWidth);
+                     position_x[n] -= snakeWidth * plus;
+                     break;
+             }
+         }
+         function showposition(ev){
+            let x = ev.clientX - 599;
+            let y = ev.clientY - 131;
+            console.log(x+","+y);
          }
     </script>
 </head>
@@ -122,7 +156,7 @@
             <span id="highestScore">历史最高分：<span id="score_h">0</span></span>
             <span id="currentScore">当前分数：<span id="score_c">0</span></span>
         </div>
-        <canvas id="game" width="705px" height="705px"></canvas>
+        <canvas id="game" width="705px" height="705px" onclick="showposition(event)"></canvas>
         <div id="btn">
             <button>重新开始</button>
         </div>
