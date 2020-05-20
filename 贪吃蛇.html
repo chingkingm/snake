@@ -1,16 +1,16 @@
 <!--
  * @Author: chingkingm
  * @Date: 2020-05-20 09:55:33
- * @LastEditTime: 2020-05-20 11:13:48
- * @FilePath: \多媒体教育与娱乐f:\Lessens\2020春网课\移动互联网应用开发 实验\实验10\贪吃蛇v2.html
+ * @LastEditTime: 2020-05-20 11:48:03
+ * @FilePath: \多媒体教育与娱乐f:\Lessens\2020春网课\移动互联网应用开发 实验\实验10\贪吃蛇.html
  * @Description: 
 --> 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>贪吃蛇</title>
     <style>
         h1 {
             text-align: center;
@@ -94,7 +94,7 @@
             else{
                 draw(snake.pop(),"white");
             }
-            setTimeout(arguments.callee,500);
+            setTimeout(arguments.callee,270);
         }
         document.onkeydown = function(e){
             flag = snake[1]-snake[0]==(n=direction[e.keyCode-37]||flag)?flag:n;
@@ -102,7 +102,9 @@
         function score(){
             score_c += 10;
             document.getElementById("score_c").innerText = score_c;
-            score_h = localStorage.getItem("score");
+            if(!(score_h = localStorage.getItem("score"))){
+                score_h=0;
+            }
             if (score_c > score_h){
                 localStorage.setItem("score",score_h = score_c);
             }
