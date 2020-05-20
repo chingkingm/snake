@@ -1,0 +1,116 @@
+<!--
+ * @Author: chingkingm
+ * @Date: 2020-05-20 09:55:33
+ * @LastEditTime: 2020-05-20 11:13:48
+ * @FilePath: \多媒体教育与娱乐f:\Lessens\2020春网课\移动互联网应用开发 实验\实验10\贪吃蛇v2.html
+ * @Description: 
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+    
+        canvas {
+            border: black 1px solid;
+        }
+    
+        #div1 {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+        }
+    
+        #score {
+            padding-bottom: 10px;
+            font-size: 20px;
+        }
+    
+        #highestScore {
+            padding-left: 2em;
+        }
+    
+        #currentScore {
+            float: right;
+            padding-right: 2em;
+        }
+    
+        #btn {
+            text-align: center;
+        }
+    
+        button {
+            width: 150px;
+            height: 50px;
+            background-color: firebrick;
+            color: white;
+            font-size: 20px;
+            border: none;
+        }
+    </style>
+</head>
+<body onload="game()">
+    <h1>基于HTML5的贪吃蛇游戏的设计与实现</h1>
+    <hr>
+    <div id="div1">
+        <div id="score">
+            <span id="highestScore">历史最高分：<span id="score_h">0</span></span>
+            <span id="currentScore">当前分数：<span id="score_c">0</span></span>
+        </div>
+        <canvas id="game" width="400px" height="400px" onclick="showposition(event)"></canvas>
+        <div id="btn">
+            <button onclick="restart()">重新开始</button>
+        </div>
+    </div>
+    <script>
+        var init = Math.floor(Math.random()*400);
+        var snake = [init,init-1];
+        var direction = [-1,-20,1,20];
+        var food = init+1,flag = 1,n;
+        var c = document.getElementById("game");
+        var ctx = c.getContext("2d");
+        var score_c = -10;
+        function draw(position,color){
+            ctx.fillStyle = color;
+            ctx.fillRect(position%20*20+1,Math.floor(position/20)*20+1,18,18);
+        }
+        function game(){
+            document.getElementById("score_h").innerText = score_h;
+            snake.unshift(n=snake[0]+flag);
+            if(snake.indexOf(n,1) >0|| n<0 || n>399 ||flag==1&&n%20==0||flag==-1&&n%20==19){
+                return alert("游戏结束");
+            }
+            draw(n,"darkcyan");
+            if(n==food){
+                while(snake.indexOf(food = Math.floor(Math.random()*400)) >= 0);
+                draw(food,"yellow");
+                score();
+            }
+            else{
+                draw(snake.pop(),"white");
+            }
+            setTimeout(arguments.callee,500);
+        }
+        document.onkeydown = function(e){
+            flag = snake[1]-snake[0]==(n=direction[e.keyCode-37]||flag)?flag:n;
+        };
+        function score(){
+            score_c += 10;
+            document.getElementById("score_c").innerText = score_c;
+            score_h = localStorage.getItem("score");
+            if (score_c > score_h){
+                localStorage.setItem("score",score_h = score_c);
+            }
+            document.getElementById("score_h").innerText = score_h;
+        }
+        function restart(){
+            location.reload();
+        }
+    </script>
+</body>
+</html>
